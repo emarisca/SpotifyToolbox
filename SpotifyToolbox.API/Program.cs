@@ -1,3 +1,4 @@
+using Serilog;
 using SpotifyToolbox.API.Lib;
 using SpotifyToolbox.API.Startup;
 
@@ -19,7 +20,11 @@ public class Program
 
         builder.Services.AddTransient<ISpotifyClientWrapper, SpotifyClientWrapper>();
 
-        var app = builder.Build();
+        builder.Host.UseSerilog((context, configuration) => 
+            configuration.ReadFrom.Configuration(context.Configuration));
+ 
+
+         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -27,6 +32,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseSerilogRequestLogging();
 
         app.UseHttpsRedirection();
 

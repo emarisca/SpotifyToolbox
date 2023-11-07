@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using SpotifyAPI.Web;
 using SpotifyToolbox.API.Lib;
 
@@ -38,6 +39,7 @@ public class List : EndpointBaseAsync
             return Ok(response);
         } catch (Exception ex)
         {
+            Log.Error("An error has occurred: {@ex}", ex);
             return BadRequest(ex.Message);
         }
     }
