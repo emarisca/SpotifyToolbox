@@ -25,7 +25,7 @@ public class List : EndpointBaseAsync
         {
             if (request.Authorization == null)
             {
-                throw new ArgumentNullException (nameof (request.Authorization));
+                return BadRequest(nameof(request.Authorization));
             }
             if (request.Limit == 0 || request.Limit > 50)
             {
