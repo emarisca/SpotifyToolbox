@@ -19,6 +19,11 @@ public class MappingProfile : Profile
                 dest => dest.Size,
                 opt => opt.MapFrom(src => src.Tracks.Total));
 
+        CreateMap<PlaylistTrack<IPlayableItem>, PlaylistTrack>()
+            .ForMember(
+                dest => dest.AddedAt,
+                prop => prop.MapFrom(src => src.AddedAt));
+
         CreateMap<FullTrack, Track>()
             .ForMember(
                 dest => dest.Id,
@@ -45,15 +50,5 @@ public class MappingProfile : Profile
             .ForMember(
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.Name));
-        //CreateMap<SimplePlaylist, Playlist>()
-        //        .ForMember(
-        //            dest => dest.OwnerId,
-        //            opt => opt.MapFrom(src => src.Owner.Id))
-        //        .ForMember(
-        //            dest => dest.OwnerName,
-        //            opt => opt.MapFrom(src => src.Owner.DisplayName))
-        //        .ForMember(
-        //            dest => dest.Size,
-        //            opt => opt.MapFrom(src => src.Tracks.Total))
     }
 }

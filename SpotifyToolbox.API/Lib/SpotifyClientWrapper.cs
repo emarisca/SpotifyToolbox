@@ -36,9 +36,9 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<List<Track>> GetPlaylistItems(string token, string playlistId, int limit, int offset)
+    public async Task<List<PlaylistTrack>> GetPlaylistItems(string token, string playlistId, int limit, int offset)
     {
-        var result = new List<Track>();
+        var result = new List<PlaylistTrack>();
         var config = SpotifyClientConfig.CreateDefault(token)
             .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 2, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
         var spotifyClient = new SpotifyClient(config);
@@ -52,7 +52,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         var playlistItems = await spotifyClient.Playlists.GetItems(playlistId, request);
         if (playlistItems != null && playlistItems.Items != null)
         {
-            result = playlistItems.Items.Select(x => _mapper.Map<Track>(x.Track)).ToList();
+            result = playlistItems.Items.Select(x => _mapper.Map<PlaylistTrack>(x)).ToList();
         }
 
         return result;

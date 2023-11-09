@@ -2,11 +2,11 @@
 
 namespace SpotifyToolbox.API.Endpoints.Playlist;
 
-public class TracksResponse : IResponse<Track>
+public class TracksResponse : IResponse<PlaylistTrack>
 {
-    public IEnumerable<Models.Track> Data { get; }
+    public IEnumerable<Models.PlaylistTrack> Data { get; }
 
-    public TracksResponse(IEnumerable<Models.Track> data)
+    public TracksResponse(IEnumerable<Models.PlaylistTrack> data)
     {
         Data = data;
     }
