@@ -11,6 +11,7 @@ namespace SpotifyToolbox.API.Lib;
 public class SpotifyClientWrapper : ISpotifyClientWrapper
 {
     protected IMapper _mapper;
+    private int MAX_PLAYLIST_ITEMS = 100;
 
     public SpotifyClientWrapper(IMapper mapper)
     {
@@ -40,7 +41,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
     {
         var result = new List<PlaylistTrack>();
         var config = SpotifyClientConfig.CreateDefault(token)
-            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 2, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
+            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
         var spotifyClient = new SpotifyClient(config);
 
         var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
@@ -56,8 +57,29 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         }
 
         return result;
-        //PlaylistTrack
-        //FullTrack
-        //playlistItems.
+    }
+
+    public async Task<List<PlaylistTrack>> GetPlaylistItemsAll(string token, string playlistId)
+    {
+        var result = new List<PlaylistTrack>();
+
+        int offset = 0;
+        bool continueFetching = true;
+
+        while (continueFetching)
+        {
+            var batchItems = await GetPlaylistItems(token, playlistId, MAX_PLAYLIST_ITEMS, offset);
+            if (batchItems != null && batchItems.Count > 0)
+            {
+                result.AddRange(batchItems);
+                offset += MAX_PLAYLIST_ITEMS;
+            }
+            else
+            {
+                continueFetching = false;
+            }
+        }
+
+        return result;
     }
 }

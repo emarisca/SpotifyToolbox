@@ -6,8 +6,8 @@ using SpotifyToolbox.API.Lib;
 namespace SpotifyToolbox.API.Endpoints.Playlist
 {
     public class GetItems : EndpointBaseAsync
-        .WithRequest<TracksRequest>
-        .WithActionResult<TracksResponse>
+        .WithRequest<ItemsRequest>
+        .WithActionResult<ItemsResponse>
     {
         private readonly ISpotifyClientWrapper _spotifyClientWrapper;
         public GetItems(ISpotifyClientWrapper spotifyClientWrapper)
@@ -16,8 +16,8 @@ namespace SpotifyToolbox.API.Endpoints.Playlist
         }
 
         [HttpGet("api/playlistItems")]
-        public async override Task<ActionResult<TracksResponse>> HandleAsync(
-            [FromQuery] TracksRequest request, 
+        public async override Task<ActionResult<ItemsResponse>> HandleAsync(
+            [FromQuery] ItemsRequest request, 
             CancellationToken cancellationToken = default)
         {
             try
@@ -36,7 +36,7 @@ namespace SpotifyToolbox.API.Endpoints.Playlist
                 }
 
                 var playlistItems = await _spotifyClientWrapper.GetPlaylistItems(request.Authorization, request.PlaylistId, request.Limit, request.Offset);
-                var response = new TracksResponse(playlistItems);
+                var response = new ItemsResponse(playlistItems);
                 return response;
             }
             catch (Exception ex)

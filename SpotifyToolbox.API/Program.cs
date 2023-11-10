@@ -1,5 +1,6 @@
 using Serilog;
 using SpotifyToolbox.API.Lib;
+using SpotifyToolbox.API.Services.Playlist;
 using SpotifyToolbox.API.Startup;
 
 namespace SpotifyToolbox.API;
@@ -19,6 +20,7 @@ public class Program
         builder.Services.AddAutoMapper();
 
         builder.Services.AddTransient<ISpotifyClientWrapper, SpotifyClientWrapper>();
+        builder.Services.AddTransient<IGetDuplicateItems, GetDuplicateItems>();
 
         builder.Host.UseSerilog((context, configuration) => 
             configuration.ReadFrom.Configuration(context.Configuration));

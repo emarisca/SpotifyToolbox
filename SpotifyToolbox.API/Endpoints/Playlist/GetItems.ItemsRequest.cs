@@ -2,7 +2,7 @@
 
 namespace SpotifyToolbox.API.Endpoints.Playlist;
 
-public class TracksRequest
+public class ItemsRequest
 {
     [FromHeader]
     public string Authorization { get; set; }
