@@ -2,9 +2,12 @@
 using System.Linq;
 using AutoMapper;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Http;
 using SpotifyToolbox.API.Endpoints.Playlist;
 using SpotifyToolbox.API.Models;
+using static SpotifyAPI.Web.PlayerResumePlaybackRequest;
 
 namespace SpotifyToolbox.API.Lib;
 
@@ -63,21 +66,22 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
     {
         var result = new List<PlaylistTrack>();
 
-        int offset = 0;
-        bool continueFetching = true;
+        var config = SpotifyClientConfig.CreateDefault(token)
+            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
+        var spotifyClient = new SpotifyClient(config);
 
-        while (continueFetching)
+        var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
         {
-            var batchItems = await GetPlaylistItems(token, playlistId, MAX_PLAYLIST_ITEMS, offset);
-            if (batchItems != null && batchItems.Count > 0)
-            {
-                result.AddRange(batchItems);
-                offset += MAX_PLAYLIST_ITEMS;
-            }
-            else
-            {
-                continueFetching = false;
-            }
+            Limit = MAX_PLAYLIST_ITEMS,
+            Offset = 0
+        };
+        var firstPage = await spotifyClient.Playlists.GetItems(playlistId, request);
+        Log.Information("First page finished");
+        var allPages = await spotifyClient.PaginateAll(firstPage);
+        Log.Information("All pages finished");
+        if (allPages != null)
+        {
+            result = allPages.Select(x => _mapper.Map<PlaylistTrack>(x)).ToList();
         }
 
         return result;

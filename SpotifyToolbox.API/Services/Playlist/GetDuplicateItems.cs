@@ -20,7 +20,7 @@ namespace SpotifyToolbox.API.Services.Playlist
             var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(token, playlistId);
             Log.Information("Finished fetching all playlist items");
 
-            playlistItems
+            result = playlistItems
                 .GroupBy(x => new
                 {
                     TrackName = x.Track.Name,
@@ -34,6 +34,7 @@ namespace SpotifyToolbox.API.Services.Playlist
                     Artists = x.Key.Artists,
                     Count = x.Count()
                 })
+                .Where(x => x.Count > 1)
                 .Select(x => new DuplicatePlaylistItem
                  {
                      DuplicateName = x.TrackName,
