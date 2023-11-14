@@ -50,7 +50,8 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
         {
             Limit = limit,
-            Offset = offset
+            Offset = offset,
+            Market = "MX"
         };
 
         var playlistItems = await spotifyClient.Playlists.GetItems(playlistId, request);
@@ -73,7 +74,8 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
         {
             Limit = MAX_PLAYLIST_ITEMS,
-            Offset = 0
+            Offset = 0,
+            Market = "MX"
         };
         var firstPage = await spotifyClient.Playlists.GetItems(playlistId, request);
         Log.Information("First page finished");

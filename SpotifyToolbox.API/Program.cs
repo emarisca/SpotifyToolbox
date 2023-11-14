@@ -21,6 +21,7 @@ public class Program
 
         builder.Services.AddTransient<ISpotifyClientWrapper, SpotifyClientWrapper>();
         builder.Services.AddTransient<IGetDuplicateItems, GetDuplicateItems>();
+        builder.Services.AddTransient<IGetUnplayableItems, GetUnplayableItems>();
 
         builder.Host.UseSerilog((context, configuration) => 
             configuration.ReadFrom.Configuration(context.Configuration));

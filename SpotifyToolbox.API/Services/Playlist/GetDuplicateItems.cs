@@ -13,7 +13,7 @@ namespace SpotifyToolbox.API.Services.Playlist
             _spotifyClientWrapper = spotifyClientWrapper;
         }
 
-        public async Task<List<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string token, string playlistId)
+        public async Task<IEnumerable<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string token, string playlistId)
         {
             var result = new List<DuplicatePlaylistItem>();
 
