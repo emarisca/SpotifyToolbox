@@ -1,8 +1,7 @@
-﻿namespace SpotifyToolbox.API.Models
+﻿namespace SpotifyToolbox.API.Models;
+
+public class DuplicatePlaylistItem
 {
-    public class DuplicatePlaylistItem
-    {
-        public string DuplicateName { get; set; }
-        public IEnumerable<PlaylistTrack> Tracks { get; set; }
-    }
+    public string DuplicateName { get; set; }
+    public IEnumerable<PlaylistTrack> Tracks { get; set; }
 }

@@ -15,7 +15,9 @@ public class GetUnplayableItems : IGetUnplayableItems
     {
         var response = new List<PlaylistTrack>();
 
-        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(token, playlistId);
+        var user = await _spotifyClientWrapper.GetCurrentUser(token);
+
+        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(token, playlistId, user.Country);
         if (playlistItems != null)
         {
             response = playlistItems.Where(x => x.Track.IsPlayable == false).ToList();

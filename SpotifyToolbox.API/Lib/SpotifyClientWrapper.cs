@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
-using Newtonsoft.Json.Linq;
+﻿using AutoMapper;
 using Serilog;
 using SpotifyAPI.Web;
-using SpotifyAPI.Web.Http;
-using SpotifyToolbox.API.Endpoints.Playlist;
 using SpotifyToolbox.API.Models;
-using static SpotifyAPI.Web.PlayerResumePlaybackRequest;
 
 namespace SpotifyToolbox.API.Lib;
 
@@ -40,7 +34,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<List<PlaylistTrack>> GetPlaylistItems(string token, string playlistId, int limit, int offset)
+    public async Task<List<PlaylistTrack>> GetPlaylistItems(string token, string playlistId, string market,  int limit, int offset)
     {
         var result = new List<PlaylistTrack>();
         var config = SpotifyClientConfig.CreateDefault(token)
@@ -51,7 +45,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         {
             Limit = limit,
             Offset = offset,
-            Market = "MX"
+            Market = market
         };
 
         var playlistItems = await spotifyClient.Playlists.GetItems(playlistId, request);
@@ -63,7 +57,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<List<PlaylistTrack>> GetPlaylistItemsAll(string token, string playlistId)
+    public async Task<List<PlaylistTrack>> GetPlaylistItemsAll(string token, string playlistId, string market)
     {
         var result = new List<PlaylistTrack>();
 
@@ -75,7 +69,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         {
             Limit = MAX_PLAYLIST_ITEMS,
             Offset = 0,
-            Market = "MX"
+            Market = market
         };
         var firstPage = await spotifyClient.Playlists.GetItems(playlistId, request);
         Log.Information("First page finished");
@@ -85,6 +79,20 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         {
             result = allPages.Select(x => _mapper.Map<PlaylistTrack>(x)).ToList();
         }
+
+        return result;
+    }
+
+    public async Task<User> GetCurrentUser(string token)
+    {
+        var result = new User();
+
+        var config = SpotifyClientConfig.CreateDefault(token)
+            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
+        var spotifyClient = new SpotifyClient(config);
+
+        var currentUser = await spotifyClient.UserProfile.Current();
+        result = _mapper.Map<User>(currentUser);
 
         return result;
     }

@@ -1,8 +1,7 @@
-﻿namespace SpotifyToolbox.API.Models
+﻿namespace SpotifyToolbox.API.Models;
+
+public class Artist
 {
-    public class Artist
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
 }

@@ -1,9 +1,8 @@
 ﻿using SpotifyToolbox.API.Models;
 
-namespace SpotifyToolbox.API.Services.Playlist
+namespace SpotifyToolbox.API.Services.Playlist;
+
+public interface IGetUnplayableItems
 {
-    public interface IGetUnplayableItems
-    {
-        Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string token, string playlistId);
-    }
+    Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string token, string playlistId);
 }

@@ -8,6 +8,21 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<PrivateUser, User>()
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id))
+            .ForMember(
+                dest => dest.DisplayName,
+                opt => opt.MapFrom(src => src.DisplayName))
+            .ForMember(
+                dest => dest.Country,
+                opt => opt.MapFrom(src => src.Country))
+            .ForMember(
+                dest => dest.Email,
+                opt => opt.MapFrom(src => src.Email));
+
+
         CreateMap<SimplePlaylist, Playlist>()
             .ForMember(
                 dest => dest.OwnerId,

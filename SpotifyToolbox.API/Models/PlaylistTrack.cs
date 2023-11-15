@@ -1,8 +1,7 @@
-﻿namespace SpotifyToolbox.API.Models
+﻿namespace SpotifyToolbox.API.Models;
+
+public class PlaylistTrack
 {
-    public class PlaylistTrack
-    {
-        public DateTime? AddedAt { get; set; }
-        public Track Track { get; set; } 
-    }
+    public DateTime? AddedAt { get; set; }
+    public Track Track { get; set; } 
 }
