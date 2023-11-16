@@ -33,7 +33,7 @@ public class GetUnplayableItems : EndpointBaseAsync
 
             var playlistItems = await _getUnplayableItemsService.GetPlaylistUnplayableItems(request.Authorization, request.PlaylistId);
             var response = new UnplayableItemsResponse(playlistItems);
-            return response;
+            return Ok(response);
         } catch (Exception ex)
         {
             Log.Error("An error has occurred: {@ex}", ex);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Serilog;
 using SpotifyAPI.Web;
+using SpotifyToolbox.API.Endpoints.Playlist;
 using SpotifyToolbox.API.Models;
 
 namespace SpotifyToolbox.API.Lib;
@@ -15,14 +16,20 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         _mapper = mapper;
     }
 
+    private SpotifyClient CreateSpotifyClient(string token)
+    {
+        var config = SpotifyClientConfig.CreateDefault(token)
+           .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 2, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
+
+        var spotifyClient = new SpotifyClient(config);
+        return spotifyClient;
+    }
+
     public async Task<List<Playlist>> GetUserPlaylists(string token, int limit, int offset)
     {
         var result = new List<Playlist>();
 
-        var config = SpotifyClientConfig.CreateDefault(token)
-            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 2, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
-
-        var spotifyClient = new SpotifyClient(config);
+        var spotifyClient = CreateSpotifyClient(token);
 
         var userPlaylists = await spotifyClient.Playlists
             .CurrentUsers(new PlaylistCurrentUsersRequest { Limit = limit, Offset = offset });
@@ -37,9 +44,8 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
     public async Task<List<PlaylistTrack>> GetPlaylistItems(string token, string playlistId, string market,  int limit, int offset)
     {
         var result = new List<PlaylistTrack>();
-        var config = SpotifyClientConfig.CreateDefault(token)
-            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
-        var spotifyClient = new SpotifyClient(config);
+
+        var spotifyClient = CreateSpotifyClient(token);
 
         var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
         {
@@ -61,9 +67,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
     {
         var result = new List<PlaylistTrack>();
 
-        var config = SpotifyClientConfig.CreateDefault(token)
-            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
-        var spotifyClient = new SpotifyClient(config);
+        var spotifyClient = CreateSpotifyClient(token);
 
         var request = new PlaylistGetItemsRequest(PlaylistGetItemsRequest.AdditionalTypes.Track)
         {
@@ -83,13 +87,31 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
+    public async Task<string> RemovePlaylistItems(string token, string playlistId, IEnumerable<string> tracks)
+    {
+        string snapshotId = String.Empty;
+
+        var spotifyClient = CreateSpotifyClient(token);
+
+        var request = new PlaylistRemoveItemsRequest
+        {
+            Tracks = tracks.Select(x => new PlaylistRemoveItemsRequest.Item { Uri = x }).ToList()
+        };
+
+        var result = await spotifyClient.Playlists.RemoveItems(playlistId, request);
+        if (result != null)
+        {
+            snapshotId = result.SnapshotId;
+        }
+
+        return snapshotId;
+    }
+
     public async Task<User> GetCurrentUser(string token)
     {
         var result = new User();
 
-        var config = SpotifyClientConfig.CreateDefault(token)
-            .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 10, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
-        var spotifyClient = new SpotifyClient(config);
+        var spotifyClient = CreateSpotifyClient(token);
 
         var currentUser = await spotifyClient.UserProfile.Current();
         result = _mapper.Map<User>(currentUser);

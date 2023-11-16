@@ -35,7 +35,7 @@ public class GetDuplicateItems : EndpointBaseAsync
 
             var playlistItems = await _getDuplicateItemsService.GetPlaylistDuplicateItems(request.Authorization, request.PlaylistId);
             var response = new DuplicateItemsResponse(playlistItems);
-            return response;
+            return Ok(response);
         }
         catch (Exception ex)
         {

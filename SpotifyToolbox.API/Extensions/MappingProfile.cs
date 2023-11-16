@@ -51,7 +51,10 @@ public class MappingProfile : Profile
                 opt => opt.MapFrom(src => src.DurationMs))
             .ForMember(
                 dest => dest.IsPlayable,
-                opt => opt.MapFrom(src => src.IsPlayable));
+                opt => opt.MapFrom(src => src.IsPlayable))
+            .ForMember(
+                dest => dest.Uri,
+                opt => opt.MapFrom(src => src.Uri));
 
         CreateMap<SimpleAlbum, Album>()
             .ForMember(

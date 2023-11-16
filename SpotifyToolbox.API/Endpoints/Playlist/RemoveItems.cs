@@ -1,23 +1,25 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Serilog;
 using SpotifyToolbox.API.Lib;
+using SpotifyToolbox.API.Services.Playlist;
 
 namespace SpotifyToolbox.API.Endpoints.Playlist;
 
-public class GetItems : EndpointBaseAsync
-    .WithRequest<ItemsRequest>
-    .WithActionResult<ItemsResponse>
+[Route("/api/playlists")]
+public class RemoveItems : EndpointBaseAsync
+    .WithRequest<RemoveItemsRequest>
+    .WithActionResult<string>
 {
     private readonly ISpotifyClientWrapper _spotifyClientWrapper;
-    public GetItems(ISpotifyClientWrapper spotifyClientWrapper)
+    public RemoveItems(ISpotifyClientWrapper spotifyClientWrapper)
     {
         _spotifyClientWrapper = spotifyClientWrapper;
     }
-
-    [HttpGet("api/playlistItems")]
-    public async override Task<ActionResult<ItemsResponse>> HandleAsync(
-        [FromQuery] ItemsRequest request, 
+    [HttpDelete("{playlist_id}/tracks")]
+    public async override Task<ActionResult<string>> HandleAsync(
+        [FromRoute] RemoveItemsRequest request, 
         CancellationToken cancellationToken = default)
     {
         try
@@ -30,15 +32,12 @@ public class GetItems : EndpointBaseAsync
             {
                 return BadRequest(nameof(request.PlaylistId));
             }
-            if (request.Limit == 0 || request.Limit > 100)
+            if (request.Body.Tracks == null || request.Body.Tracks.Count() == 0)
             {
-                request.Limit = 100;
+                return BadRequest(nameof(request.Body.Tracks));
             }
 
-            var user = await _spotifyClientWrapper.GetCurrentUser(request.Authorization);
-
-            var playlistItems = await _spotifyClientWrapper.GetPlaylistItems(request.Authorization, request.PlaylistId, user.Country, request.Limit, request.Offset);
-            var response = new ItemsResponse(playlistItems);
+            var response = await _spotifyClientWrapper.RemovePlaylistItems(request.Authorization, request.PlaylistId, request.Body.Tracks);
             return Ok(response);
         }
         catch (Exception ex)
