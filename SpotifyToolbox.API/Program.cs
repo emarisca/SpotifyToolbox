@@ -1,7 +1,18 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using SpotifyToolbox.API.Lib;
 using SpotifyToolbox.API.Services.Playlist;
 using SpotifyToolbox.API.Startup;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SpotifyAPI.Web;
+using static SpotifyAPI.Web.Scopes;
+using Microsoft.OpenApi.Models;
+using SpotifyToolbox.API.Services;
+using SpotifyToolbox.API.Models;
 
 namespace SpotifyToolbox.API;
 
@@ -23,11 +34,24 @@ public class Program
         builder.Services.AddTransient<IGetDuplicateItems, GetDuplicateItems>();
         builder.Services.AddTransient<IGetUnplayableItems, GetUnplayableItems>();
 
+        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddSingleton<ISessionService, SessionService>();
+
         builder.Host.UseSerilog((context, configuration) => 
             configuration.ReadFrom.Configuration(context.Configuration));
- 
 
-         var app = builder.Build();
+        // Configure session.
+        builder.Services.AddMemoryCache();
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(10);
+            options.Cookie.Name = ".SpotifyToolbox.Session";
+        });
+
+        builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection("Spotify:Auth"));
+
+        var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -41,8 +65,7 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
-
+        app.UseSession();
         app.MapControllers();
 
         app.Run();

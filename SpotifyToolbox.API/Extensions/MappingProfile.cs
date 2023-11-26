@@ -22,8 +22,7 @@ public class MappingProfile : Profile
                 dest => dest.Email,
                 opt => opt.MapFrom(src => src.Email));
 
-
-        CreateMap<SimplePlaylist, Playlist>()
+        CreateMap<FullPlaylist, Playlist>()
             .ForMember(
                 dest => dest.OwnerId,
                 opt => opt.MapFrom(src => src.Owner.Id))

@@ -4,8 +4,8 @@ namespace SpotifyToolbox.API.Endpoints.Playlist;
 
 public class PlaylistRequest
 {
-    [FromHeader]
-    public string Authorization { get; set; }
+    //[FromHeader]
+    //public string Authorization { get; set; }
     [FromQuery]
     public int Offset { get; set; }
     [FromQuery]
