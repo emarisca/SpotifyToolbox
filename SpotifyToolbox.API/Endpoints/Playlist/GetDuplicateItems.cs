@@ -23,17 +23,17 @@ public class GetDuplicateItems : EndpointBaseAsync
     {
         try
         {
-            if (request.Authorization == null)
-            {
-                return BadRequest(nameof(request.Authorization));
-            }
             if (String.IsNullOrWhiteSpace(request.PlaylistId))
             {
-                return BadRequest(nameof(request.PlaylistId));
+                return BadRequest($"Field {nameof(request.PlaylistId)} is required.");
+            }
+            if (String.IsNullOrWhiteSpace(request.Market))
+            {
+                return BadRequest($"Field {nameof(request.Market)} is required.");
             }
 
 
-            var playlistItems = await _getDuplicateItemsService.GetPlaylistDuplicateItems(request.Authorization, request.PlaylistId);
+            var playlistItems = await _getDuplicateItemsService.GetPlaylistDuplicateItems(request.PlaylistId, request.Market);
             var response = new DuplicateItemsResponse(playlistItems);
             return Ok(response);
         }

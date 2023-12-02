@@ -24,10 +24,6 @@ public class RemoveItems : EndpointBaseAsync
     {
         try
         {
-            if (request.Authorization == null)
-            {
-                return BadRequest($"Field {nameof(request.Authorization)} is required.");
-            }
             if (String.IsNullOrWhiteSpace(request.PlaylistId))
             {
                 return BadRequest($"Field {nameof(request.PlaylistId)} is required.");
@@ -37,7 +33,7 @@ public class RemoveItems : EndpointBaseAsync
                 return BadRequest($"Field {nameof(request.Body.Tracks)} is required.");
             }
 
-            var response = await _spotifyClientWrapper.RemovePlaylistItems(request.Authorization, request.PlaylistId, request.Body.Tracks);
+            var response = await _spotifyClientWrapper.RemovePlaylistItems(request.PlaylistId, request.Body.Tracks);
             return Ok(response);
         }
         catch (Exception ex)

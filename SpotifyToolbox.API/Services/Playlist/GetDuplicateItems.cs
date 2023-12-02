@@ -13,13 +13,11 @@ public class GetDuplicateItems : IGetDuplicateItems
         _spotifyClientWrapper = spotifyClientWrapper;
     }
 
-    public async Task<IEnumerable<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string token, string playlistId)
+    public async Task<IEnumerable<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string playlistId, string market)
     {
         var result = new List<DuplicatePlaylistItem>();
 
-        var user = await _spotifyClientWrapper.GetCurrentUser(token);
-
-        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(token, playlistId, user.Country);
+        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(playlistId, market);
         Log.Information("Finished fetching all playlist items");
 
         result = playlistItems

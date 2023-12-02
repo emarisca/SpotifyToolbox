@@ -11,13 +11,11 @@ public class GetUnplayableItems : IGetUnplayableItems
         _spotifyClientWrapper = spotifyClientWrapper;
     }
 
-    public async Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string token, string playlistId)
+    public async Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string playlistId, string market)
     {
         var response = new List<PlaylistTrack>();
 
-        var user = await _spotifyClientWrapper.GetCurrentUser(token);
-
-        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(token, playlistId, user.Country);
+        var playlistItems = await _spotifyClientWrapper.GetPlaylistItemsAll(playlistId, market);
         if (playlistItems != null)
         {
             response = playlistItems.Where(x => x.Track.IsPlayable == false).ToList();

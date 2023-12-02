@@ -23,17 +23,13 @@ public class List : EndpointBaseAsync
     {
         try
         {
-            //if (request.Authorization == null)
-            //{
-            //    return BadRequest(nameof(request.Authorization));
-            //}
             if (request.Limit == 0 || request.Limit > 50)
             {
                 request.Limit = 50;
             }
 
 
-            var spotifyPlaylist = await _spotifyClientWrapper.GetUserPlaylists("", request.Limit, request.Offset);
+            var spotifyPlaylist = await _spotifyClientWrapper.GetUserPlaylists(request.Limit, request.Offset);
             var response = new PlaylistsResponse(spotifyPlaylist);
 
             return Ok(response);

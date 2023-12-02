@@ -22,10 +22,6 @@ public class GetItems : EndpointBaseAsync
     {
         try
         {
-            if (request.Authorization == null)
-            {
-                return BadRequest(nameof(request.Authorization));
-            }
             if (String.IsNullOrWhiteSpace(request.PlaylistId))
             {
                 return BadRequest(nameof(request.PlaylistId));
@@ -35,9 +31,9 @@ public class GetItems : EndpointBaseAsync
                 request.Limit = 100;
             }
 
-            var user = await _spotifyClientWrapper.GetCurrentUser(request.Authorization);
+            var user = await _spotifyClientWrapper.GetCurrentUser();
 
-            var playlistItems = await _spotifyClientWrapper.GetPlaylistItems(request.Authorization, request.PlaylistId, user.Country, request.Limit, request.Offset);
+            var playlistItems = await _spotifyClientWrapper.GetPlaylistItems(request.PlaylistId, user.Country, request.Limit, request.Offset);
             var response = new ItemsResponse(playlistItems);
             return Ok(response);
         }

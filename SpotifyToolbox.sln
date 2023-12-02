@@ -5,9 +5,11 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8EC1E44C-7B10-452F-8A83-EB9C89364018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyToolbox.API", "SpotifyToolbox.API\SpotifyToolbox.API.csproj", "{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyToolbox.API", "SpotifyToolbox.API\SpotifyToolbox.API.csproj", "{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8BBC898D-5E7C-4022-8470-9C0024785D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyToolbox.Tests", "SpotifyToolbox.Tests\SpotifyToolbox.Tests.csproj", "{E0A8026A-6DA5-4039-9FDD-86C48884363E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,17 @@ Global
 		{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0A8026A-6DA5-4039-9FDD-86C48884363E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0A8026A-6DA5-4039-9FDD-86C48884363E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0A8026A-6DA5-4039-9FDD-86C48884363E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0A8026A-6DA5-4039-9FDD-86C48884363E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5A22E8AF-807E-4211-9EAC-C3C40E72D8C3} = {8EC1E44C-7B10-452F-8A83-EB9C89364018}
+		{E0A8026A-6DA5-4039-9FDD-86C48884363E} = {8BBC898D-5E7C-4022-8470-9C0024785D28}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5CF1690-A807-4D20-AF04-861D86D75F62}

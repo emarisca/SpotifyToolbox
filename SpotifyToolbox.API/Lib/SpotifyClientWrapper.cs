@@ -49,7 +49,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return null!;
     }
 
-    public async Task<List<Playlist>> GetUserPlaylists(string token, int limit, int offset)
+    public async Task<List<Playlist>> GetUserPlaylists(int limit, int offset)
     {
         var result = new List<Playlist>();
 
@@ -67,7 +67,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<List<PlaylistTrack>> GetPlaylistItems(string token, string playlistId, string market,  int limit, int offset)
+    public async Task<List<PlaylistTrack>> GetPlaylistItems(string playlistId, string market,  int limit, int offset)
     {
         var result = new List<PlaylistTrack>();
 
@@ -91,7 +91,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<List<PlaylistTrack>> GetPlaylistItemsAll(string token, string playlistId, string market)
+    public async Task<List<PlaylistTrack>> GetPlaylistItemsAll(string playlistId, string market)
     {
         var result = new List<PlaylistTrack>();
 
@@ -118,7 +118,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public async Task<string> RemovePlaylistItems(string token, string playlistId, IEnumerable<string> tracks)
+    public async Task<string> RemovePlaylistItems(string playlistId, IEnumerable<string> tracks)
     {
         string snapshotId = String.Empty;
 
@@ -141,7 +141,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return snapshotId;
     }
 
-    public async Task<User> GetCurrentUser(string token)
+    public async Task<User> GetCurrentUser()
     {
         var result = new User();
 

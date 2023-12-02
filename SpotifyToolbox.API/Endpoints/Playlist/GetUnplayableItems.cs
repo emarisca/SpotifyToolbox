@@ -22,16 +22,16 @@ public class GetUnplayableItems : EndpointBaseAsync
     {
         try
         {
-            if (request.Authorization == null)
-            {
-                return BadRequest(nameof(request.Authorization));
-            }
             if (String.IsNullOrWhiteSpace(request.PlaylistId))
             {
-                return BadRequest(nameof(request.PlaylistId));
+                return BadRequest($"Field {nameof(request.PlaylistId)} is required.");
+            }
+            if (String.IsNullOrWhiteSpace(request.Market))
+            {
+                return BadRequest($"Field {nameof(request.Market)} is required.");
             }
 
-            var playlistItems = await _getUnplayableItemsService.GetPlaylistUnplayableItems(request.Authorization, request.PlaylistId);
+            var playlistItems = await _getUnplayableItemsService.GetPlaylistUnplayableItems(request.PlaylistId, request.Market);
             var response = new UnplayableItemsResponse(playlistItems);
             return Ok(response);
         } catch (Exception ex)

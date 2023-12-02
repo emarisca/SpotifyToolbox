@@ -4,8 +4,6 @@ namespace SpotifyToolbox.API.Endpoints.Playlist;
 
 public class RemoveItemsRequest
 {
-    [FromHeader]
-    public string Authorization { get; set; }
     [FromRoute(Name = "playlist_id")]
     public string PlaylistId { get; set; }
     [FromBody]
