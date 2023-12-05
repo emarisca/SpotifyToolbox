@@ -13,7 +13,7 @@ public class GetDuplicateItems : IGetDuplicateItems
         _spotifyClientWrapper = spotifyClientWrapper;
     }
 
-    public async Task<IEnumerable<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string playlistId, string market)
+    public async Task<List<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string playlistId, string market)
     {
         var result = new List<DuplicatePlaylistItem>();
 
@@ -42,6 +42,7 @@ public class GetDuplicateItems : IGetDuplicateItems
                             .Where(i => i.Track.Name == x.TrackName
                                 && i.Track.DurationMs == x.DurationMs
                                 && i.Track.Artists.Select(i => i.Id).Stringify(",") == x.Artists)
+                            .ToList()
              }).ToList();
 
         return result;

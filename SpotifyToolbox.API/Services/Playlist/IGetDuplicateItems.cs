@@ -4,5 +4,5 @@ namespace SpotifyToolbox.API.Services.Playlist;
 
 public interface IGetDuplicateItems
 {
-    Task<IEnumerable<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string playlistId, string market);
+    Task<List<DuplicatePlaylistItem>> GetPlaylistDuplicateItems(string playlistId, string market);
 }
