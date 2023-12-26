@@ -4,5 +4,5 @@ namespace SpotifyToolbox.API.Services.Playlist;
 
 public interface IGetUnplayableItems
 {
-    Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string playlistId, string market);
+    Task<List<PlaylistTrack>> GetPlaylistUnplayableItems(string playlistId, string market);
 }

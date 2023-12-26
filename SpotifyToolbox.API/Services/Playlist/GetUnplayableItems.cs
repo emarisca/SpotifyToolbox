@@ -11,7 +11,7 @@ public class GetUnplayableItems : IGetUnplayableItems
         _spotifyClientWrapper = spotifyClientWrapper;
     }
 
-    public async Task<IEnumerable<PlaylistTrack>> GetPlaylistUnplayableItems(string playlistId, string market)
+    public async Task<List<PlaylistTrack>> GetPlaylistUnplayableItems(string playlistId, string market)
     {
         var response = new List<PlaylistTrack>();
 
