@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8EC1E44C-7B10-452F-8A83-EB9C89364018}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8BBC898D-5E7C-4022-8470-9C0024785D28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyToolbox.API", "src\SpotifyToolbox.API\SpotifyToolbox.API.csproj", "{91898EED-32D8-4F9A-92CF-C95C735AFC8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyToolbox.Tests", "tests\SpotifyToolbox.Tests\SpotifyToolbox.Tests.csproj", "{2D556E01-2599-4651-A039-121B91A301B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91898EED-32D8-4F9A-92CF-C95C735AFC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91898EED-32D8-4F9A-92CF-C95C735AFC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91898EED-32D8-4F9A-92CF-C95C735AFC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91898EED-32D8-4F9A-92CF-C95C735AFC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D556E01-2599-4651-A039-121B91A301B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D556E01-2599-4651-A039-121B91A301B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D556E01-2599-4651-A039-121B91A301B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D556E01-2599-4651-A039-121B91A301B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{91898EED-32D8-4F9A-92CF-C95C735AFC8E} = {8EC1E44C-7B10-452F-8A83-EB9C89364018}
+		{2D556E01-2599-4651-A039-121B91A301B3} = {8BBC898D-5E7C-4022-8470-9C0024785D28}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5CF1690-A807-4D20-AF04-861D86D75F62}
+	EndGlobalSection
+EndGlobal

@@ -40,6 +40,13 @@ public class Program
         builder.Host.UseSerilog((context, configuration) => 
             configuration.ReadFrom.Configuration(context.Configuration));
 
+        builder.Services.AddCors(o => o.AddPolicy("_myAllowedSpecificOrigins", builder =>
+        {
+            builder.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        }));
+
         // Configure session.
         builder.Services.AddMemoryCache();
         builder.Services.AddDistributedMemoryCache();
@@ -63,7 +70,7 @@ public class Program
         app.UseSerilogRequestLogging();
 
         app.UseHttpsRedirection();
-
+        app.UseCors("_myAllowedSpecificOrigins");
         app.UseAuthorization();
         app.UseSession();
         app.MapControllers();

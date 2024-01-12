@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpotifyToolbox.API\SpotifyToolbox.API.csproj" />
+    <ProjectReference Include="..\..\src\SpotifyToolbox.API\SpotifyToolbox.API.csproj" />
   </ItemGroup>
 
 </Project>
