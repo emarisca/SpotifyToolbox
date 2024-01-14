@@ -2,9 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { createTheme } from "@mui/material/styles";
 import { useMemo } from "react";
-import './App.css'
-import { themeSettings } from "./theme"
-import PlaylistPage from './pages/homePage'
+import PlaylistPage from './pages/playlistsPage'
 
 function App() {
   const theme = useMemo(() => createTheme(), []);
@@ -12,13 +10,13 @@ function App() {
   return (
     <div className='app'>
       <BrowserRouter>
-      <ThemeProvider theme={theme}>
+      {/* <ThemeProvider theme={theme}> */}
           <Routes>
             <Route 
               path='/playlists' 
               element={ <PlaylistPage /> } />
           </Routes>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
       </BrowserRouter>
     </div>
   )

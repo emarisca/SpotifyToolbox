@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 interface PlaylistType {
     playlistId: string,
@@ -15,9 +15,9 @@ const PlaylistWidget = ({
             justifyContent={ "space-between" }
             alignItems={ "center" }>
 
-                { playlistId }
-                { playlistName }
-
+                <p>{ playlistId }</p>
+                <p>{ playlistName }</p>
+                <Button variant="contained">Contained</Button>
         </Box>
     );
 };
