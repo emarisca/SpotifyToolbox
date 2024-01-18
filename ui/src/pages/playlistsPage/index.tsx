@@ -16,15 +16,13 @@ const PlaylistsPage = () => {
 
     return (
         <>
-            home page!
-            <Box display="flex" alignItems="center">
-                {playlists.map(o => (
-                    <PlaylistWidget
-                        playlistId={o.playlistId}
-                        playlistName={o.playlistName} />
-                ))}
+            {playlists.map(o => (
+                <PlaylistWidget
+                    key={o.id}
+                    playlistId={o.id}
+                    playlistName={o.name} />
+            ))}
 
-            </Box>
         </>
     )
 };

@@ -1,4 +1,4 @@
 export default interface Playlist {
-    playlistId: string,
-    playlistName: string
+    id: string,
+    name: string
 }

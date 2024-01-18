@@ -44,7 +44,8 @@ public class Program
         {
             builder.WithOrigins("http://localhost:5173")
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .AllowCredentials();
         }));
 
         // Configure session.
@@ -54,6 +55,10 @@ public class Program
         {
             options.IdleTimeout = TimeSpan.FromMinutes(10);
             options.Cookie.Name = ".SpotifyToolbox.Session";
+            options.Cookie.HttpOnly = false;
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.IsEssential = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
 
         builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection("Spotify:Auth"));

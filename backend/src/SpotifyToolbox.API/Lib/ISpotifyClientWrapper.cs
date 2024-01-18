@@ -10,6 +10,6 @@ public interface ISpotifyClientWrapper
     Task<List<PlaylistTrack>> GetPlaylistItemsAll(string playlistId, string market = default);
     Task<string> RemovePlaylistItems(string playlistId, IEnumerable<string> tracks);
     Task<User> GetCurrentUser();
-    public Uri GetAuthorizationUri();
+    public string GetAuthorizationUri();
     public Task GetCallback(string code);
 }

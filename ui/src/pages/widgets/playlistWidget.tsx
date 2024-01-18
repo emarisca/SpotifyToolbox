@@ -11,9 +11,7 @@ const PlaylistWidget = ({
 }: PlaylistType) => {
     return (
         <Box
-            display={ "flex" }
-            justifyContent={ "space-between" }
-            alignItems={ "center" }>
+        display="flex" alignItems="center" justifyContent="space-between">
 
                 <p>{ playlistId }</p>
                 <p>{ playlistName }</p>

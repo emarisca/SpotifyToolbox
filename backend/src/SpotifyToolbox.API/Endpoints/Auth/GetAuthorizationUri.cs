@@ -15,7 +15,7 @@ namespace SpotifyToolbox.API.Endpoints.Auth
         }
  
         [HttpGet("api/auth/getAuthorizationUri")]
-        public Uri Handle()
+        public string Handle()
         {
             return _spotifyClientWrapper.GetAuthorizationUri();
         }

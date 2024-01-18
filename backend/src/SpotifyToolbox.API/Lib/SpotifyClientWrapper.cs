@@ -156,7 +156,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return result;
     }
 
-    public Uri GetAuthorizationUri()
+    public string GetAuthorizationUri()
     {
         var loginRequest = new LoginRequest(
           new Uri(_authSettings.Value.CallbackUrl),
@@ -173,7 +173,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
                 Scopes.PlaylistModifyPrivate
             }
         };
-        var uri = loginRequest.ToUri();
+        var uri = loginRequest.ToUri().ToString();
 
         return uri;
     }

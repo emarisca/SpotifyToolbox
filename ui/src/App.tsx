@@ -3,6 +3,8 @@ import { ThemeProvider } from '@mui/material/styles'
 import { createTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import PlaylistPage from './pages/playlistsPage'
+import LoginPage from './pages/loginPage';
+import CallbackPage from './pages/loginPage/callback';
 
 function App() {
   const theme = useMemo(() => createTheme(), []);
@@ -10,13 +12,19 @@ function App() {
   return (
     <div className='app'>
       <BrowserRouter>
-      {/* <ThemeProvider theme={theme}> */}
-          <Routes>
-            <Route 
-              path='/playlists' 
-              element={ <PlaylistPage /> } />
-          </Routes>
-      {/* </ThemeProvider> */}
+        {/* <ThemeProvider theme={theme}> */}
+        <Routes>
+          <Route
+            path='/login'
+            element={<LoginPage />} />
+          <Route
+            path='/callback'
+            element={ <CallbackPage/> } />
+          <Route
+            path='/playlists'
+            element={<PlaylistPage />} />
+        </Routes>
+        {/* </ThemeProvider> */}
       </BrowserRouter>
     </div>
   )

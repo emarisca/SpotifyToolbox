@@ -29,7 +29,10 @@ const playlistSlice = createSlice({
 export const fetchPlaylists = createAsyncThunk(
     "playlist/fetchPlaylists",
     async () => {
-        const response = await fetch('https://localhost:7215/api/playlist')
+        const response = await fetch('https://localhost:7215/api/playlist', 
+        {
+            credentials: 'include'
+        });
         const playlists = await response.json();
         return playlists.data;
     });
