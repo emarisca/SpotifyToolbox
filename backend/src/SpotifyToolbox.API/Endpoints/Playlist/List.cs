@@ -3,21 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using SpotifyAPI.Web;
 using SpotifyToolbox.API.Lib;
+using SpotifyToolbox.API.Models;
+using SpotifyToolbox.API.Services.Playlist;
 
 namespace SpotifyToolbox.API.Endpoints.Playlist;
 
 public class List : EndpointBaseAsync
     .WithRequest<PlaylistRequest>
-    .WithActionResult<PlaylistsResponse>
+    .WithActionResult<ResponseModel<Models.Playlist>>
 {
-    private readonly ISpotifyClientWrapper _spotifyClientWrapper;
-    public List(ISpotifyClientWrapper spotifyClientWrapper)
+    private readonly IListPlaylists _listPlaylistsService;
+    public List(IListPlaylists listPlaylistsService)
     {
-        _spotifyClientWrapper = spotifyClientWrapper;
+        _listPlaylistsService = listPlaylistsService;
     }
 
     [HttpGet("api/playlist")]
-    public async override Task<ActionResult<PlaylistsResponse>> HandleAsync(
+    public async override Task<ActionResult<ResponseModel<Models.Playlist>>> HandleAsync(
         [FromQuery] PlaylistRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -28,10 +30,8 @@ public class List : EndpointBaseAsync
                 request.Limit = 50;
             }
 
-
-            var spotifyPlaylist = await _spotifyClientWrapper.GetUserPlaylists(request.Limit, request.Offset);
-            var response = new PlaylistsResponse(spotifyPlaylist);
-
+            var response = await _listPlaylistsService.GetUserPlaylists(request.Limit, request.Offset);
+           
             return Ok(response);
         } catch (Exception ex)
         {

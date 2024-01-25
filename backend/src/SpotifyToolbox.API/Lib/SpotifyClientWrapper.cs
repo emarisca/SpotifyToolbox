@@ -49,6 +49,7 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
         return null!;
     }
 
+    /*
     public async Task<List<Playlist>> GetUserPlaylists(int limit, int offset)
     {
         var result = new List<Playlist>();
@@ -62,6 +63,20 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
             {
                 result = userPlaylists.Items.Select(x => _mapper.Map<Playlist>(x)).ToList();
             }
+        }
+
+        return result;
+    }*/
+
+    public async Task<Paging<FullPlaylist>> GetUserPlaylists(int limit, int offset)
+    {
+        var result = new Paging<FullPlaylist>();
+
+        var spotifyClient = CreateSpotifyClient();
+        if (spotifyClient != null)
+        {
+            result = await spotifyClient.Playlists
+                .CurrentUsers(new PlaylistCurrentUsersRequest { Limit = limit, Offset = offset });
         }
 
         return result;

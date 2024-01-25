@@ -33,6 +33,7 @@ public class Program
         builder.Services.AddTransient<ISpotifyClientWrapper, SpotifyClientWrapper>();
         builder.Services.AddTransient<IGetDuplicateItems, GetDuplicateItems>();
         builder.Services.AddTransient<IGetUnplayableItems, GetUnplayableItems>();
+        builder.Services.AddTransient<IListPlaylists, ListPlaylistsService>();
 
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSingleton<ISessionService, SessionService>();
