@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import PlaylistWidget from "../widgets/playlistWidget";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../state/store";
-import { fetchPlaylists } from "./playlistSlice";
 import { useInView } from "react-intersection-observer";
 import Playlist from '../../models/playlist';
 
