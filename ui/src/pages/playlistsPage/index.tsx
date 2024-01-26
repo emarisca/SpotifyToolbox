@@ -9,17 +9,32 @@ import Playlist from '../../models/playlist';
 
 const PlaylistsPage = () => {
     const limit = 50;
-    const [offset, setOffset] = useState(limit);
-    const playlists = useSelector((state: RootState) => state.playlistSlice.playlists);
-    const loadData = () => {
-        setOffset(offset + limit);
-        dispatch(fetchPlaylists({ limit, offset }));
+    const [offset, setOffset] = useState(0);
+    const [playlists, setPlaylists] = useState([]);
+    const [totalPlaylists, setTotalPlaylists] = useState(0);
+
+    const fetchData = async () => {
+        const response = await fetch(`https://localhost:7215/api/playlist?limit=${limit}&offset=${offset}`, 
+        {
+            credentials: 'include'
+        });
+        const jsonResponse = await response.json();
+        return jsonResponse;
     }
 
-    const dispatch = useDispatch<AppDispatch>();
+    const loadData = async () => {
+        const response = await fetchData();
+        if (response && response.data) {
+            console.log(response);
+            setPlaylists(playlists.concat(response.data));
+            setTotalPlaylists(response.total);
+            setOffset(offset + limit);
+        }
+    }
+
     const { ref } = useInView({
         onChange: (inView) => {
-            if (inView) {
+            if (inView && offset < totalPlaylists) {
                 loadData();
             }
         }
@@ -31,24 +46,21 @@ const PlaylistsPage = () => {
 
     return (
         <>
-            {playlists.map((o, index, array) => (
-                index === array.length - 1 ?
-                    (
-                        <div key={o.id} ref={ref}>
-                            <PlaylistWidget
-                                playlistId={o.id}
-                                playlistName={o.name} />
-                        </div>
+            {playlists.map((item: Playlist, index, array) => (
 
-                    ) :
-                    (
-                        <div key={o.id}>
-                            <PlaylistWidget
-                                playlistId={o.id}
-                                playlistName={o.name} />
-                        </div>
-                    )
-
+                index === array.length - 1 ? (
+                    <div key={item.id} ref={ref} >
+                        <PlaylistWidget
+                            playlistId={item.id}
+                            playlistName={item.name} />
+                    </div>
+                ) : (
+                    <div key={item.id}>
+                        <PlaylistWidget
+                            playlistId={item.id}
+                            playlistName={item.name} />
+                    </div>
+                )
             ))}
 
         </>

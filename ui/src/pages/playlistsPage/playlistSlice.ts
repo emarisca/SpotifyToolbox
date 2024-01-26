@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Playlist from '../../models/playlist';
 
 interface PlaylistsState {
-    playlists: Playlist[]
+    playlists: Playlist[],
+    totalPlaylists: number
 }
 
 const initialState: PlaylistsState = {
-    playlists: []
+    playlists: [],
+    totalPlaylists: 0
 }
 
 interface RequestParams {
@@ -26,12 +28,8 @@ const playlistSlice = createSlice({
                 console.log("fetchPlaylists.pending");
             })
             .addCase(fetchPlaylists.fulfilled, (state, action) => {
-                const old = state.playlists.concat(action.payload);
-                console.log("action.payload")
-                console.log(action.payload)
-                console.log("old")
-                console.log(old)
-                state.playlists = old;
+                state.playlists = state.playlists.concat(action.payload.data);
+                state.totalPlaylists = action.payload.total;
             })
     }
 });
@@ -45,7 +43,7 @@ export const fetchPlaylists = createAsyncThunk(
             credentials: 'include'
         });
         const playlists = await response.json();
-        return playlists.data;
+        return playlists;
     });
 
 export default playlistSlice.reducer;
