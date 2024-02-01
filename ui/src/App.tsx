@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import PlaylistPage from './pages/playlistsPage'
 import LoginPage from './pages/loginPage';
 import CallbackPage from './pages/loginPage/callback';
+import DuplicateTracksPage from './pages/duplicateTracksPage';
 
 function App() {
   const theme = useMemo(() => createTheme(), []);
@@ -19,10 +20,13 @@ function App() {
             element={<LoginPage />} />
           <Route
             path='/callback'
-            element={ <CallbackPage/> } />
+            element={<CallbackPage />} />
           <Route
             path='/playlists'
             element={<PlaylistPage />} />
+          <Route
+            path='/duplicates'
+            element={<DuplicateTracksPage />} />
         </Routes>
         {/* </ThemeProvider> */}
       </BrowserRouter>
