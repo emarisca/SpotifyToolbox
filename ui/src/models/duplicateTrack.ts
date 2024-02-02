@@ -1,6 +1,6 @@
-import Track from './track';
+import PlaylistTrack from './playlistTrack';
 
 export default interface DuplicateTrack {
     duplicateName: string,
-    tracks: Track[]
+    tracks: PlaylistTrack[]
 };
