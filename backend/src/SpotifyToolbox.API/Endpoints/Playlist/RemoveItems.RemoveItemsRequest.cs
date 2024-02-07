@@ -12,5 +12,11 @@ public class RemoveItemsRequest
 
 public class RemoveItemsRequestBody
 {
-    public List<string> Tracks { get; set; }
+    public List<RemovePlaylistItem> Tracks { get; set; }
+}
+
+public class RemovePlaylistItem
+{
+    public string Uri { get; set; }
+    public List<int> Positions { get; set; }
 }

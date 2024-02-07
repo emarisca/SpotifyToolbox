@@ -11,6 +11,7 @@ public class Playlist
     public string OwnerName { get; set; }
 
     public int Size { get; set; }
+    public string SnapshotId { get; set; }
 
     //public Image Image { get; set; }
 }

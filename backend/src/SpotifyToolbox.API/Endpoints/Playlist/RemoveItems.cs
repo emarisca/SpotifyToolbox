@@ -12,10 +12,10 @@ public class RemoveItems : EndpointBaseAsync
     .WithRequest<RemoveItemsRequest>
     .WithActionResult<string>
 {
-    private readonly ISpotifyClientWrapper _spotifyClientWrapper;
-    public RemoveItems(ISpotifyClientWrapper spotifyClientWrapper)
+    private readonly IRemovePlaylistItemsService _removePlaylistItemsService;
+    public RemoveItems(IRemovePlaylistItemsService removePlaylistItemsService)
     {
-        _spotifyClientWrapper = spotifyClientWrapper;
+        _removePlaylistItemsService = removePlaylistItemsService;
     }
     [HttpDelete("{playlist_id}/tracks")]
     public async override Task<ActionResult<string>> HandleAsync(
@@ -33,7 +33,7 @@ public class RemoveItems : EndpointBaseAsync
                 return BadRequest($"Field {nameof(request.Body.Tracks)} is required.");
             }
 
-            var response = await _spotifyClientWrapper.RemovePlaylistItems(request.PlaylistId, request.Body.Tracks);
+            var response = await _removePlaylistItemsService.RemovePlaylistItems(request);
             return Ok(response);
         }
         catch (Exception ex)

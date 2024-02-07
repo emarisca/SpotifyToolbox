@@ -34,6 +34,7 @@ public class Program
         builder.Services.AddTransient<IGetDuplicateItems, GetDuplicateItems>();
         builder.Services.AddTransient<IGetUnplayableItems, GetUnplayableItems>();
         builder.Services.AddTransient<IListPlaylists, ListPlaylistsService>();
+        builder.Services.AddTransient<IRemovePlaylistItemsService, RemovePlaylistItemsService>();
 
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSingleton<ISessionService, SessionService>();
@@ -54,7 +55,7 @@ public class Program
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(10);
+            options.IdleTimeout = TimeSpan.FromMinutes(60);
             options.Cookie.Name = ".SpotifyToolbox.Session";
             options.Cookie.HttpOnly = false;
             options.Cookie.SameSite = SameSiteMode.None;

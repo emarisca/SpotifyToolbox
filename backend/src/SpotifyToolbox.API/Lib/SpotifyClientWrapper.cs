@@ -130,10 +130,16 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
             }
         }
 
+        //Set the tracks position in the playlist
+        for (var i = 0; i < result.Count; i++)
+        {
+            result[i].Position = i;
+        }
+
         return result;
     }
 
-    public async Task<string> RemovePlaylistItems(string playlistId, IEnumerable<string> tracks)
+    public async Task<string> RemovePlaylistItems(string playlistId, PlaylistRemoveItemsRequest request)
     {
         string snapshotId = String.Empty;
 
@@ -141,10 +147,6 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
 
         if (spotifyClient != null)
         {
-            var request = new PlaylistRemoveItemsRequest
-            {
-                Tracks = tracks.Select(x => new PlaylistRemoveItemsRequest.Item { Uri = x }).ToList()
-            };
 
             var result = await spotifyClient.Playlists.RemoveItems(playlistId, request);
             if (result != null)
@@ -185,7 +187,8 @@ public class SpotifyClientWrapper : ISpotifyClientWrapper
                 Scopes.UserReadEmail,
                 Scopes.UserLibraryRead,
                 Scopes.PlaylistReadPrivate,
-                Scopes.PlaylistModifyPrivate
+                Scopes.PlaylistModifyPrivate,
+                Scopes.PlaylistModifyPublic
             }
         };
         var uri = loginRequest.ToUri().ToString();
